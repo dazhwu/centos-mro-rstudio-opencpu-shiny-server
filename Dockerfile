@@ -86,12 +86,12 @@ USER mockbuild
 
 RUN \
   cd ~ && \
-  rpm -ivh rapache-1.2.7-2.1.src.rpm && \
+  rpm -ivh rapache-1.2.7-2.3.src.rpm && \
   rpmbuild -ba ~/rpmbuild/SPECS/rapache.spec
 
 RUN \
   cd ~ && \
-  rpm -ivh opencpu-1.6.2-7.1.src.rpm && \
+  rpm -ivh opencpu-1.6.7-11.2.src.rpm && \
   rpmbuild -ba ~/rpmbuild/SPECS/opencpu.spec
 
 RUN \
