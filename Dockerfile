@@ -51,8 +51,8 @@ USER mockbuild
 
 RUN \
   cd /home/mockbuild/ && \
-  wget http://download.opensuse.org/repositories/home:/jeroenooms:/opencpu-1.6/Fedora_23/src/rapache-1.2.7-2.1.src.rpm && \ 
-  wget http://download.opensuse.org/repositories/home:/jeroenooms:/opencpu-1.6/Fedora_23/src/opencpu-1.6.2-7.1.src.rpm && \
+  wget http://download.opensuse.org/repositories/home:/jeroenooms:/opencpu-1.6/Fedora_25/src/rapache-1.2.7-2.3.src.rpm && \ 
+  wget http://download.opensuse.org/repositories/home:/jeroenooms:/opencpu-1.6/Fedora_25/src/opencpu-1.6.7-11.2.src.rpm && \
   wget http://dl.fedoraproject.org/pub/fedora/linux/releases/25/Everything/source/tree/Packages/t/tcl-8.6.6-1.fc25.src.rpm && \
   wget http://dl.fedoraproject.org/pub/fedora/linux/releases/25/Everything/source/tree/Packages/t/tk-8.6.6-1.fc25.src.rpm
 
@@ -62,10 +62,10 @@ USER root
 #  rm /etc/yum.repos.d/CentOS-Sources.repo
 
 RUN \
-  yum-builddep -y --nogpgcheck /home/mockbuild/opencpu-1.6.2-7.1.src.rpm
+  yum-builddep -y --nogpgcheck /home/mockbuild/opencpu-1.6.7-11.2.src.rpm
 
 RUN \
-  yum-builddep -y --nogpgcheck /home/mockbuild/rapache-1.2.7-2.1.src.rpm
+  yum-builddep -y --nogpgcheck /home/mockbuild/rapache-1.2.7-2.3.src.rpm
 
 RUN \
   yum-builddep -y --nogpgcheck /home/mockbuild/tcl-8.6.6-1.fc25.src.rpm
@@ -144,26 +144,25 @@ USER root
 WORKDIR /tmp
 
 RUN \
-  wget https://s3.amazonaws.com/rstudio-dailybuilds/rstudio-server-rhel-1.0.136-x86_64.rpm && \
-  wget https://download3.rstudio.org/centos5.9/x86_64/shiny-server-1.5.1.834-rh5-x86_64.rpm
+  wget https://download2.rstudio.org/rstudio-server-rhel-1.0.143-x86_64.rpm && \
+  wget https://download3.rstudio.org/centos5.9/x86_64/shiny-server-1.5.3.838-rh5-x86_64.rpm
 
 
 RUN \
   echo "Installing shiny from CRAN" && \
-  Rscript -e "install.packages('shiny')"
-  #, repos='https://cloud.r-project.org/')"
+  Rscript -e "install.packages('shiny', repos='https://cloud.r-project.org/')"
 
 # Add default root password with password r00tpassw0rd
 RUN \
   echo "root:r00tpassw0rd" | chpasswd
 
 RUN \
-  yum install -y --nogpgcheck /tmp/shiny-server-1.5.1.834-rh5-x86_64.rpm && \
-  rm -f /tmp/shiny-server-1.5.1.834-rh5-x86_64.rpm
+  yum install -y --nogpgcheck /tmp/shiny-server-1.5.3.838-rh5-x86_64.rpm && \
+  rm -f /tmp/shiny-server-1.5.3.838-rh5-x86_64.rpm
 
 RUN \
-  yum install -y --nogpgcheck /tmp/rstudio-server-rhel-1.0.136-x86_64.rpm && \
-  rm -f /tmp/rstudio-server-rhel-1.0.136-x86_64.rpm
+  yum install -y --nogpgcheck /tmp/rstudio-server-rhel-1.0.143-x86_64.rpm && \
+  rm -f /tmp/rstudio-server-rhel-1.0.143-x86_64.rpm
 
 # install additional packages
 ADD \
