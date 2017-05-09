@@ -51,8 +51,8 @@ USER mockbuild
 
 RUN \
   cd /home/mockbuild/ && \
-  wget http://download.opensuse.org/repositories/home:/jeroenooms:/opencpu-1.6/Fedora_25/src/rapache-1.2.7-2.3.src.rpm && \ 
-  wget http://download.opensuse.org/repositories/home:/jeroenooms:/opencpu-1.6/Fedora_25/src/opencpu-1.6.7-11.2.src.rpm && \
+  wget http://download.opensuse.org/repositories/home:/jeroenooms:/opencpu-2.0/Fedora_25/src/rapache-1.2.7-2.1.src.rpm && \ 
+  wget http://download.opensuse.org/repositories/home:/jeroenooms:/opencpu-2.0/Fedora_25/src/opencpu-2.0.0-4.1.src.rpm && \
   wget http://dl.fedoraproject.org/pub/fedora/linux/releases/25/Everything/source/tree/Packages/t/tcl-8.6.6-1.fc25.src.rpm && \
   wget http://dl.fedoraproject.org/pub/fedora/linux/releases/25/Everything/source/tree/Packages/t/tk-8.6.6-1.fc25.src.rpm
 
@@ -62,10 +62,10 @@ USER root
 #  rm /etc/yum.repos.d/CentOS-Sources.repo
 
 RUN \
-  yum-builddep -y --nogpgcheck /home/mockbuild/opencpu-1.6.7-11.2.src.rpm
+  yum-builddep -y --nogpgcheck /home/mockbuild/opencpu-2.0.0-4.1.src.rpm
 
 RUN \
-  yum-builddep -y --nogpgcheck /home/mockbuild/rapache-1.2.7-2.3.src.rpm
+  yum-builddep -y --nogpgcheck /home/mockbuild/rapache-1.2.7-2.1.src.rpm
 
 RUN \
   yum-builddep -y --nogpgcheck /home/mockbuild/tcl-8.6.6-1.fc25.src.rpm
@@ -86,12 +86,12 @@ USER mockbuild
 
 RUN \
   cd ~ && \
-  rpm -ivh rapache-1.2.7-2.3.src.rpm && \
+  rpm -ivh rapache-1.2.7-2.1.src.rpm && \
   rpmbuild -ba ~/rpmbuild/SPECS/rapache.spec
 
 RUN \
   cd ~ && \
-  rpm -ivh opencpu-1.6.7-11.2.src.rpm && \
+  rpm -ivh opencpu-2.0.0-4.1.src.rpm && \
   rpmbuild -ba ~/rpmbuild/SPECS/opencpu.spec
 
 RUN \
