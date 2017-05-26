@@ -25,7 +25,8 @@ RUN \
                  libicu-devel \
                  tar \
                  curl \
-                 mock
+                 mock \
+                 NLopt-devel
 
 RUN \
   useradd -ms /bin/bash mockbuild
@@ -52,7 +53,7 @@ USER mockbuild
 RUN \
   cd /home/mockbuild/ && \
   wget http://download.opensuse.org/repositories/home:/jeroenooms:/opencpu-2.0/Fedora_25/src/rapache-1.2.7-2.1.src.rpm && \ 
-  wget http://download.opensuse.org/repositories/home:/jeroenooms:/opencpu-2.0/Fedora_25/src/opencpu-2.0.0-4.1.src.rpm && \
+  wget http://download.opensuse.org/repositories/home:/jeroenooms:/opencpu-2.0/Fedora_25/src/opencpu-2.0.2-14.1.src.rpm && \
   wget http://dl.fedoraproject.org/pub/fedora/linux/releases/25/Everything/source/tree/Packages/t/tcl-8.6.6-1.fc25.src.rpm && \
   wget http://dl.fedoraproject.org/pub/fedora/linux/releases/25/Everything/source/tree/Packages/t/tk-8.6.6-1.fc25.src.rpm
 
@@ -62,7 +63,7 @@ USER root
 #  rm /etc/yum.repos.d/CentOS-Sources.repo
 
 RUN \
-  yum-builddep -y --nogpgcheck /home/mockbuild/opencpu-2.0.0-4.1.src.rpm
+  yum-builddep -y --nogpgcheck /home/mockbuild/opencpu-2.0.2-14.1.src.rpm
 
 RUN \
   yum-builddep -y --nogpgcheck /home/mockbuild/rapache-1.2.7-2.1.src.rpm
@@ -74,12 +75,12 @@ RUN \
 #  yum-builddep -y --nogpgcheck /home/builder/tk-8.6.6-1.fc25.src.rpm
 
 RUN \
-  ln /usr/lib64/microsoft-r/3.3/lib64/R/share/ /usr/share/R -s && \
-  ln /usr/lib64/microsoft-r/3.3/lib64/R/lib/ /usr/lib/R -s && \
-  ln /usr/lib64/microsoft-r/3.3/lib64/R/include /usr/lib/R/include -s
+  ln /usr/lib64/microsoft-r/3.4/lib64/R/share/ /usr/share/R -s && \
+  ln /usr/lib64/microsoft-r/3.4/lib64/R/lib/ /usr/lib/R -s && \
+  ln /usr/lib64/microsoft-r/3.4/lib64/R/include /usr/lib/R/include -s
 
 RUN \
-  echo "/usr/lib64/microsoft-r/3.3/lib64/R/lib" >> /etc/ld.so.conf.d/microsoft-r-lib.conf && \
+  echo "/usr/lib64/microsoft-r/3.4/lib64/R/lib" >> /etc/ld.so.conf.d/microsoft-r-lib.conf && \
   ldconfig
 
 USER mockbuild
@@ -91,7 +92,7 @@ RUN \
 
 RUN \
   cd ~ && \
-  rpm -ivh opencpu-2.0.0-4.1.src.rpm && \
+  rpm -ivh opencpu-2.0.2-14.1.src.rpm && \
   rpmbuild -ba ~/rpmbuild/SPECS/opencpu.spec
 
 RUN \
@@ -148,9 +149,13 @@ RUN \
   wget https://download3.rstudio.org/centos5.9/x86_64/shiny-server-1.5.3.838-rh5-x86_64.rpm
 
 
+#RUN \
+#  echo "Installing shiny from CRAN" && \
+#  Rscript -e "install.packages('shiny', repos='https://cloud.r-project.org/')"
+
 RUN \
-  echo "Installing shiny from CRAN" && \
-  Rscript -e "install.packages('shiny', repos='https://cloud.r-project.org/')"
+  echo "Installing shiny from MRAN" && \
+  Rscript -e "install.packages('shiny')"
 
 # Add default root password with password r00tpassw0rd
 RUN \
