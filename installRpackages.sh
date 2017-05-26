@@ -1,21 +1,21 @@
 #!/bin/sh
 
-# This installs R packages from CRAN/MRAN
-echo "Installing ggplot2 from CRAN/MRAN"
-Rscript -e "install.packages('ggplot2', repos='https://cloud.r-project.org/')"
-echo "Installing plotly from CRAN/MRAN"
-Rscript -e "install.packages('plotly', repos='https://cloud.r-project.org/')"
-echo "Installing ggfortify from CRAN/MRAN"
-Rscript -e "install.packages('ggfortify', repos='https://cloud.r-project.org/')"
-echo "Installing rmarkdown from CRAN/MRAN"
-Rscript -e "install.packages('rmarkdown', repos='https://cloud.r-project.org/')"
-echo "Installing devtools from CRAN/MRAN"
-Rscript -e "install.packages('devtools', repos='https://cloud.r-project.org/')"
-echo "Installing curl from CRAN/MRAN"
-Rscript -e "install.packages('curl', repos='https://cloud.r-project.org/')"
+# This installs R packages from MRAN
+echo "Installing ggplot2 from MRAN"
+Rscript -e "install.packages('ggplot2')"
+echo "Installing plotly from MRAN"
+Rscript -e "install.packages('plotly')"
+echo "Installing ggfortify from MRAN"
+Rscript -e "install.packages('ggfortify')"
+echo "Installing rmarkdown from MRAN"
+Rscript -e "install.packages('rmarkdown')"
+echo "Installing devtools from MRAN"
+Rscript -e "install.packages('devtools')"
+echo "Installing curl from MRAN"
+Rscript -e "install.packages('curl')"
 
-echo "Installing radiant"
-Rscript -e "install.packages('radiant', repos='https://cloud.r-project.org/')"
+echo "Installing radiant from MRAN"
+Rscript -e "install.packages('radiant')"
 git clone https://github.com/radiant-rstats/radiant.git /srv/shiny-server/radiant/
 
 
