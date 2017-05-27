@@ -220,6 +220,9 @@ RUN \
   ln /srv/shiny-server/apps /home/shiny/shiny-server/apps -s && \
   ln /srv/shiny-server/rmd /home/shiny/shiny-server/rmd -s
 
+ADD \
+  .Rprofile /home/shiny/.Rprofile
+
 USER root
 
 # Define default command.
