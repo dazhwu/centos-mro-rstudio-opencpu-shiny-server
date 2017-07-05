@@ -1,6 +1,13 @@
 
 FROM mjmg/centos-mro-base:latest
 
+ENV OPENCPU_VERSION 2.0.3-16.1
+ENV RAPACHE_VERSION 1.2.7-2.1
+ENV TCL_VERSION 8.6.6-1
+ENV TK_VERSION 8.6.6-1
+ENV RSTUDIO_SERVER_VERSION 1.0.143
+ENV SHINY_SERVER_VERSION 1.5.3.838
+
 RUN \
   yum clean all && \
   yum update -y && \
@@ -52,10 +59,10 @@ USER mockbuild
 
 RUN \
   cd /home/mockbuild/ && \
-  wget http://download.opensuse.org/repositories/home:/jeroenooms:/opencpu-2.0/Fedora_25/src/rapache-1.2.7-2.1.src.rpm && \ 
-  wget http://download.opensuse.org/repositories/home:/jeroenooms:/opencpu-2.0/Fedora_25/src/opencpu-2.0.2-15.1.src.rpm && \
-  wget http://dl.fedoraproject.org/pub/fedora/linux/releases/25/Everything/source/tree/Packages/t/tcl-8.6.6-1.fc25.src.rpm && \
-  wget http://dl.fedoraproject.org/pub/fedora/linux/releases/25/Everything/source/tree/Packages/t/tk-8.6.6-1.fc25.src.rpm
+  wget http://download.opensuse.org/repositories/home:/jeroenooms:/opencpu-2.0/Fedora_25/src/rapache-$RAPACHE_VERSION.src.rpm && \ 
+  wget http://download.opensuse.org/repositories/home:/jeroenooms:/opencpu-2.0/Fedora_25/src/opencpu-$OPENCPU_VERSION.src.rpm && \
+  wget http://dl.fedoraproject.org/pub/fedora/linux/releases/25/Everything/source/tree/Packages/t/tcl-$TCL_VERSION.fc25.src.rpm && \
+  wget http://dl.fedoraproject.org/pub/fedora/linux/releases/25/Everything/source/tree/Packages/t/tk-$TK_VERSION.fc25.src.rpm
 
 USER root
 
@@ -63,16 +70,16 @@ USER root
 #  rm /etc/yum.repos.d/CentOS-Sources.repo
 
 RUN \
-  yum-builddep -y --nogpgcheck /home/mockbuild/opencpu-2.0.2-15.1.src.rpm
+  yum-builddep -y --nogpgcheck /home/mockbuild/opencpu-$OPENCPU_VERSION.src.rpm
 
 RUN \
-  yum-builddep -y --nogpgcheck /home/mockbuild/rapache-1.2.7-2.1.src.rpm
+  yum-builddep -y --nogpgcheck /home/mockbuild/rapache-$RAPACHE_VERSION.src.rpm
 
 RUN \
-  yum-builddep -y --nogpgcheck /home/mockbuild/tcl-8.6.6-1.fc25.src.rpm
+  yum-builddep -y --nogpgcheck /home/mockbuild/tcl-$TCL_VERSION.fc25.src.rpm
 
 #RUN \
-#  yum-builddep -y --nogpgcheck /home/builder/tk-8.6.6-1.fc25.src.rpm
+#  yum-builddep -y --nogpgcheck /home/builder/tk-$TK_VERSION.fc25.src.rpm
 
 RUN \
   ln /usr/lib64/microsoft-r/3.4/lib64/R/share/ /usr/share/R -s && \
@@ -87,17 +94,17 @@ USER mockbuild
 
 RUN \
   cd ~ && \
-  rpm -ivh rapache-1.2.7-2.1.src.rpm && \
+  rpm -ivh rapache-$RAPACHE_VERSION.src.rpm && \
   rpmbuild -ba ~/rpmbuild/SPECS/rapache.spec
 
 RUN \
   cd ~ && \
-  rpm -ivh opencpu-2.0.2-15.1.src.rpm && \
+  rpm -ivh opencpu-$OPENCPU_VERSION.src.rpm && \
   rpmbuild -ba ~/rpmbuild/SPECS/opencpu.spec
 
 RUN \
   cd ~ && \
-  rpm -ivh tcl-8.6.6-1.fc25.src.rpm && \
+  rpm -ivh tcl-$TCL_VERSION.fc25.src.rpm && \
   rpmbuild -ba ~/rpmbuild/SPECS/tcl.spec
 
 USER root
@@ -105,17 +112,17 @@ USER root
 RUN \
   cd /home/mockbuild/rpmbuild/RPMS/x86_64/ && \
   yum erase -y tcl tk && \
-  yum install -y ./tcl-devel-8.6.6-1.el7.centos.x86_64.rpm ./tcl-8.6.6-1.el7.centos.x86_64.rpm
+  yum install -y ./tcl-devel-$TCL_VERSION.el7.centos.x86_64.rpm ./tcl-$TCL_VERSION.el7.centos.x86_64.rpm
 
 RUN \
-  yum-builddep -y --nogpgcheck /home/mockbuild/tk-8.6.6-1.fc25.src.rpm
+  yum-builddep -y --nogpgcheck /home/mockbuild/tk-$TK_VERSION.fc25.src.rpm
 
 
 USER mockbuild
 
 RUN \
   cd ~ && \
-  rpm -ivh tk-8.6.6-1.fc25.src.rpm && \
+  rpm -ivh tk-$TK_VERSION.fc25.src.rpm && \
   rpmbuild -ba ~/rpmbuild/SPECS/tk.spec
 
 USER root
@@ -125,8 +132,8 @@ RUN \
   yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64/rapache-*.rpm && \
   yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64/opencpu-lib-*.rpm && \
   yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64/opencpu-server-*.rpm && \
-  yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64/./tk-devel-8.6.6-1.el7.centos.x86_64.rpm \
-                 /home/mockbuild/rpmbuild/RPMS/x86_64/tk-8.6.6-1.el7.centos.x86_64.rpm
+  yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64/./tk-devel-$TK_VERSION.el7.centos.x86_64.rpm \
+                 /home/mockbuild/rpmbuild/RPMS/x86_64/tk-$TK_VERSION.el7.centos.x86_64.rpm
 
 # Cleanup
 RUN \
@@ -145,8 +152,8 @@ USER root
 WORKDIR /tmp
 
 RUN \
-  wget https://download2.rstudio.org/rstudio-server-rhel-1.0.143-x86_64.rpm && \
-  wget https://download3.rstudio.org/centos5.9/x86_64/shiny-server-1.5.3.838-rh5-x86_64.rpm
+  wget https://download2.rstudio.org/rstudio-server-rhel-$RSTUDIO_SERVER_VERSION-x86_64.rpm && \
+  wget https://download3.rstudio.org/centos5.9/x86_64/shiny-server-$SHINY_SERVER_VERSION-rh5-x86_64.rpm
 
 
 #RUN \
@@ -162,19 +169,12 @@ RUN \
   echo "root:r00tpassw0rd" | chpasswd
 
 RUN \
-  yum install -y --nogpgcheck /tmp/shiny-server-1.5.3.838-rh5-x86_64.rpm && \
+  yum install -y --nogpgcheck /tmp/shiny-server-$SHINY_SERVER_VERSION-rh5-x86_64.rpm && \
   rm -f /tmp/shiny-server-1.5.3.838-rh5-x86_64.rpm
 
 RUN \
-  yum install -y --nogpgcheck /tmp/rstudio-server-rhel-1.0.143-x86_64.rpm && \
+  yum install -y --nogpgcheck /tmp/rstudio-server-rhel-$RSTUDIO_SERVER_VERSION-x86_64.rpm && \
   rm -f /tmp/rstudio-server-rhel-1.0.143-x86_64.rpm
-
-# install additional packages
-ADD \
-  installRpackages.sh /tmp/installRpackages.sh
-RUN \
-  chmod +x /tmp/installRpackages.sh && \
-  /tmp/installRpackages.sh
 
 
 # Server ports
@@ -224,6 +224,30 @@ ADD \
   .Rprofile /home/shiny/.Rprofile
 
 USER root
+
+# install useful R packages
+ADD \
+  installRpackages.sh /tmp/installRpackages.sh
+RUN \
+  chmod +x /tmp/installRpackages.sh && \
+  /tmp/installRpackages.sh
+
+  
+# install Chemometrics R packages
+ADD \
+  installChempackages.sh /tmp/installChempackages.sh
+#RUN \
+#  chmod +x /tmp/installChempackages.sh && \
+#  /tmp/installRpackages.sh
+  
+
+# install useful machine learning packages
+ADD \
+  installMLpackages.sh /tmp/installMLpackages.sh
+#RUN \
+#  chmod +x /tmp/installMLpackages.sh && \
+#  /tmp/installRpackages.sh
+  
 
 # Define default command.
 CMD ["/usr/bin/supervisord","-c","/etc/supervisor/supervisord.conf"]
