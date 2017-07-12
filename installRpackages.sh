@@ -27,6 +27,10 @@ echo "Installing devtools from MRAN"
 Rscript -e "install.packages('devtools')"
 echo "Installing curl from MRAN"
 Rscript -e "install.packages('curl')"
+echo "Installing roxygen2 from MRAN"
+Rscript -e "install.packages('roxygen2')"
+
+
 
 echo "Installing ggplot2 from MRAN"
 Rscript -e "install.packages('ggplot2')"
