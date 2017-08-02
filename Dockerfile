@@ -3,10 +3,11 @@ FROM mjmg/centos-mro-base:latest
 
 ENV OPENCPU_VERSION 2.0.3-16.1
 ENV RAPACHE_VERSION 1.2.7-2.1
-ENV TCL_VERSION 8.6.6-1
+ENV TCL_VERSION 8.6.6-2
 ENV TK_VERSION 8.6.6-1
-ENV RSTUDIO_SERVER_VERSION 1.0.143
+ENV RSTUDIO_SERVER_VERSION 1.0.153
 ENV SHINY_SERVER_VERSION 1.5.3.838
+ENV FEDORA_VERSION 26
 
 RUN \
   yum clean all && \
@@ -59,10 +60,10 @@ USER mockbuild
 
 RUN \
   cd /home/mockbuild/ && \
-  wget http://download.opensuse.org/repositories/home:/jeroenooms:/opencpu-2.0/Fedora_25/src/rapache-$RAPACHE_VERSION.src.rpm && \ 
-  wget http://download.opensuse.org/repositories/home:/jeroenooms:/opencpu-2.0/Fedora_25/src/opencpu-$OPENCPU_VERSION.src.rpm && \
-  wget http://dl.fedoraproject.org/pub/fedora/linux/releases/25/Everything/source/tree/Packages/t/tcl-$TCL_VERSION.fc25.src.rpm && \
-  wget http://dl.fedoraproject.org/pub/fedora/linux/releases/25/Everything/source/tree/Packages/t/tk-$TK_VERSION.fc25.src.rpm
+  wget http://download.opensuse.org/repositories/home:/jeroenooms:/opencpu-2.0/Fedora_$FEDORA_VERSION/src/rapache-$RAPACHE_VERSION.src.rpm && \ 
+  wget http://download.opensuse.org/repositories/home:/jeroenooms:/opencpu-2.0/Fedora_$FEDORA_VERSION/src/opencpu-$OPENCPU_VERSION.src.rpm && \
+  wget http://dl.fedoraproject.org/pub/fedora/linux/releases/$FEDORA_VERSION/Everything/source/tree/Packages/t/tcl-$TCL_VERSION.fc$FEDORA_VERSION.src.rpm && \
+  wget http://dl.fedoraproject.org/pub/fedora/linux/releases/$FEDORA_VERSION/Everything/source/tree/Packages/t/tk-$TK_VERSION.fc$FEDORA_VERSION.src.rpm
 
 USER root
 
@@ -76,10 +77,7 @@ RUN \
   yum-builddep -y --nogpgcheck /home/mockbuild/rapache-$RAPACHE_VERSION.src.rpm
 
 RUN \
-  yum-builddep -y --nogpgcheck /home/mockbuild/tcl-$TCL_VERSION.fc25.src.rpm
-
-#RUN \
-#  yum-builddep -y --nogpgcheck /home/builder/tk-$TK_VERSION.fc25.src.rpm
+  yum-builddep -y --nogpgcheck /home/mockbuild/tcl-$TCL_VERSION.fc$FEDORA_VERSION.src.rpm
 
 RUN \
   ln /usr/lib64/microsoft-r/3.4/lib64/R/share/ /usr/share/R -s && \
@@ -115,14 +113,14 @@ RUN \
   yum install -y ./tcl-devel-$TCL_VERSION.el7.centos.x86_64.rpm ./tcl-$TCL_VERSION.el7.centos.x86_64.rpm
 
 RUN \
-  yum-builddep -y --nogpgcheck /home/mockbuild/tk-$TK_VERSION.fc25.src.rpm
+  yum-builddep -y --nogpgcheck /home/mockbuild/tk-$TK_VERSION.fc$FEDORA_VERSION.src.rpm
 
 
 USER mockbuild
 
 RUN \
   cd ~ && \
-  rpm -ivh tk-$TK_VERSION.fc25.src.rpm && \
+  rpm -ivh tk-$TK_VERSION.fc$FEDORA_VERSION.src.rpm && \
   rpmbuild -ba ~/rpmbuild/SPECS/tk.spec
 
 USER root
@@ -170,11 +168,11 @@ RUN \
 
 RUN \
   yum install -y --nogpgcheck /tmp/shiny-server-$SHINY_SERVER_VERSION-rh5-x86_64.rpm && \
-  rm -f /tmp/shiny-server-1.5.3.838-rh5-x86_64.rpm
+  rm -f /tmp/shiny-server-$SHINY_SERVER_VERSION-rh5-x86_64.rpm
 
 RUN \
   yum install -y --nogpgcheck /tmp/rstudio-server-rhel-$RSTUDIO_SERVER_VERSION-x86_64.rpm && \
-  rm -f /tmp/rstudio-server-rhel-1.0.143-x86_64.rpm
+  rm -f /tmp/rstudio-server-rhel-$RSTUDIO_SERVER_VERSION-x86_64.rpm
 
 
 # Server ports
