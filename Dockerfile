@@ -102,7 +102,7 @@ RUN \
 
 RUN \
   cd ~ && \
-  rpm -ivh tcl-$TCL_VERSION.fc25.src.rpm && \
+  rpm -ivh tcl-$TCL_VERSION.fc$FEDORA_VERSION.src.rpm && \
   rpmbuild -ba ~/rpmbuild/SPECS/tcl.spec
 
 USER root
