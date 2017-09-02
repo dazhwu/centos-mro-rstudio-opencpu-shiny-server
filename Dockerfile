@@ -230,22 +230,19 @@ RUN \
   chmod +x /tmp/installRpackages.sh && \
   /tmp/installRpackages.sh
 
-
 # install Chemometrics R packages
 ADD \
   installChempackages.sh /tmp/installChempackages.sh
-RUN \
-  chmod +x /tmp/installChempackages.sh && \
-  /tmp/installChempackages.sh
-
+#RUN \
+#  chmod +x /tmp/installChempackages.sh && \
+#  /tmp/installChempackages.sh
 
 # install useful machine learning packages
 ADD \
   installMLpackages.sh /tmp/installMLpackages.sh
-RUN \
-  chmod +x /tmp/installMLpackages.sh && \
-  /tmp/installMLpackages.sh
-
+#RUN \
+#  chmod +x /tmp/installMLpackages.sh && \
+#  /tmp/installMLpackages.sh
 
 # Define default command.
 CMD ["/usr/bin/supervisord","-c","/etc/supervisor/supervisord.conf"]
