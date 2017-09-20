@@ -8,6 +8,7 @@ ENV TK_VERSION 8.6.6-1
 ENV RSTUDIO_SERVER_VERSION 1.0.153
 ENV SHINY_SERVER_VERSION 1.5.3.838
 ENV FEDORA_VERSION 26
+ENV MRO_HOME /opt/microsoft/ropen/3.4.1/lib64/R
 
 RUN \
   yum clean all && \
@@ -80,12 +81,12 @@ RUN \
   yum-builddep -y --nogpgcheck /home/mockbuild/tcl-$TCL_VERSION.fc$FEDORA_VERSION.src.rpm
 
 RUN \
-  ln /usr/lib64/microsoft-r/3.4/lib64/R/share/ /usr/share/R -s && \
-  ln /usr/lib64/microsoft-r/3.4/lib64/R/lib/ /usr/lib/R -s && \
-  ln /usr/lib64/microsoft-r/3.4/lib64/R/include /usr/lib/R/include -s
+  ln $MRO_HOME/share/ /usr/share/R -s && \
+  ln $MRO_HOME/lib/ /usr/lib/R -s && \
+  ln $MRO_HOME/include /usr/lib/R/include -s
 
 RUN \
-  echo "/usr/lib64/microsoft-r/3.4/lib64/R/lib" >> /etc/ld.so.conf.d/microsoft-r-lib.conf && \
+  echo "$MRO_HOME/lib" >> /etc/ld.so.conf.d/microsoft-r-lib.conf && \
   ldconfig
 
 USER mockbuild
