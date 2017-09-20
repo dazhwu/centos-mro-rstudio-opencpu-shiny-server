@@ -94,7 +94,7 @@ USER mockbuild
 RUN \
   cd ~ && \
   rpm -ivh rapache-$RAPACHE_VERSION.src.rpm && \
-  rpmbuild -ba ~/rpmbuild/SPECS/rapache.spec
+  QA_RPATHS=0x0001 rpmbuild -ba ~/rpmbuild/SPECS/rapache.spec
 
 RUN \
   cd ~ && \
