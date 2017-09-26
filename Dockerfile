@@ -229,6 +229,7 @@ ADD \
   installRpackages.sh /tmp/installRpackages.sh
 RUN \
   chmod +x /tmp/installRpackages.sh && \
+  sync && \
   /tmp/installRpackages.sh
 
 # install Chemometrics R packages
