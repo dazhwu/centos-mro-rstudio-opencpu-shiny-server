@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # This installs useful R packages from MRAN
 echo "Installing plyr from MRAN"

@@ -52,3 +52,6 @@ Rscript -e "install.packages('ChemometricsWithRData')"
 
 echo "Installing ChemometricsWithR from MRAN"
 Rscript -e "install.packages('ChemometricsWithR')"
+
+echo "Installing mdatools from MRAN"
+Rscript -e "install.packages('mdatools')"
