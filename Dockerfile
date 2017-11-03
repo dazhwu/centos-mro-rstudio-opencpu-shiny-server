@@ -238,16 +238,18 @@ ADD \
   installChempackages.sh /tmp/installChempackages.sh
 RUN \
   chmod +x /tmp/installChempackages.sh && \
-  sync && \
-  /tmp/installChempackages.sh
+  sync
+#RUN \
+#  /tmp/installChempackages.sh
 
 # install useful machine learning packages
 ADD \
   installMLpackages.sh /tmp/installMLpackages.sh
 RUN \
   chmod +x /tmp/installMLpackages.sh && \
-  sync && \
-  /tmp/installMLpackages.sh
+  sync
+#RUN \
+#  /tmp/installMLpackages.sh
 
 # Define default command.
 CMD ["/usr/bin/supervisord","-c","/etc/supervisor/supervisord.conf"]
