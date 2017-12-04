@@ -194,7 +194,12 @@ RUN \
   rm -f /etc/httpd/conf.d/rstudio.conf
 ADD \
   ./etc/httpd/conf.d/rstudio-server.conf /etc/httpd/conf.d/rstudio-server.conf
-# Use SSL and password protect shiny-server with shiny:shiny
+# Update SSL configuration
+RUN \
+  rm -f /etc/httpd/conf.d/ssl.conf
+ADD \
+  ./etc/httpd/conf.d/ssl.conf /etc/httpd/conf.d/ssl.conf
+# Password protect shiny-server with shiny:shiny
 ADD \
   ./etc/httpd/conf.d/shiny-httpd.conf /etc/httpd/conf.d/shiny-httpd.conf
 ADD \
@@ -220,6 +225,7 @@ RUN \
   ln /srv/shiny-server/apps /home/shiny/shiny-server/apps -s && \
   ln /srv/shiny-server/rmd /home/shiny/shiny-server/rmd -s
 
+# Workaround for library directory in MRO 3.4.X
 ADD \
   .Rprofile /home/shiny/.Rprofile
 
