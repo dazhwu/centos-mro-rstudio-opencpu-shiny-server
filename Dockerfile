@@ -112,7 +112,7 @@ USER root
 RUN \
   cd /home/mockbuild/rpmbuild/RPMS/x86_64/ && \
   yum erase -y tcl tk && \
-  yum install -y ./tcl-devel-$TCL_VERSION.el7.centos.x86_64.rpm ./tcl-$TCL_VERSION.el7.centos.x86_64.rpm
+  yum install -y ./tcl-devel-$TCL_VERSION.el7.x86_64.rpm ./tcl-$TCL_VERSION.el7.x86_64.rpm
 
 RUN \
   yum-builddep -y --nogpgcheck /home/mockbuild/tk-$TK_VERSION.fc$FEDORA_VERSION.src.rpm
@@ -132,8 +132,8 @@ RUN \
   yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64/rapache-*.rpm && \
   yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64/opencpu-lib-*.rpm && \
   yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64/opencpu-server-*.rpm && \
-  yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64/./tk-devel-$TK_VERSION.el7.centos.x86_64.rpm \
-                 /home/mockbuild/rpmbuild/RPMS/x86_64/tk-$TK_VERSION.el7.centos.x86_64.rpm
+  yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64/./tk-devel-$TK_VERSION.el7.x86_64.rpm \
+                 /home/mockbuild/rpmbuild/RPMS/x86_64/tk-$TK_VERSION.el7.x86_64.rpm
 
 # Cleanup
 RUN \
