@@ -14,8 +14,8 @@ Rscript -e "install.packages('chemCal')"
 echo "Installing titrationCurves from MRAN"
 Rscript -e "install.packages('titrationCurves')"
 
-echo "Installing quantchem from MRAN"
-Rscript -e "install.packages('quantchem')"
+#echo "Installing quantchem from MRAN"
+#Rscript -e "install.packages('quantchem')"
 
 echo "Installing dtw from MRAN"
 Rscript -e "install.packages('ptw')"
@@ -28,6 +28,12 @@ Rscript -e "library(devtools); install_github('david-clifford/VPdtw')"
 
 echo "Installing speaq from MRAN"
 Rscript -e "install.packages('speaq')"
+
+echo "Installing MSnbase from Bioconductor"
+Rscript -e "source('https://bioconductor.org/biocLite.R'); biocLite('MSnbase')"
+
+echo "Installing mzR from Bioconductor"
+Rscript -e "source('https://bioconductor.org/biocLite.R'); biocLite('mzR')"
 
 echo "Installing xcms from Bioconductor"
 Rscript -e "source('https://bioconductor.org/biocLite.R'); biocLite('xcms')"
@@ -52,6 +58,12 @@ Rscript -e "install.packages('ChemometricsWithRData')"
 
 echo "Installing ChemometricsWithR from MRAN"
 Rscript -e "install.packages('ChemometricsWithR')"
+
+echo "Installing qicharts from MRAN"
+Rscript -e "install.packages('qicharts')"
+
+echo "Installing qicharts2 from MRAN"
+Rscript -e "install.packages('qicharts2')"
 
 echo "Installing mdatools from MRAN"
 Rscript -e "install.packages('mdatools')"

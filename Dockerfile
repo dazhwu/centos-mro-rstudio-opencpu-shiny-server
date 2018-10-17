@@ -1,15 +1,16 @@
 
 FROM mjmg/centos-mro-base:latest
 
-ENV OPENCPU_VERSION 2.0.6-22.1
-ENV RAPACHE_VERSION 1.2.7-2.1
-ENV TCL_VERSION 8.6.7-1
-ENV TK_VERSION 8.6.7-1
-ENV RSTUDIO_SERVER_VERSION 1.1.383
-ENV SHINY_SERVER_VERSION 1.5.5.872
-ENV FEDORA_VERSION 27
-ENV MRO_VERSION 3.4.1
+ENV OPENCPU_VERSION 2.0.8-32.3
+ENV RAPACHE_VERSION 1.2.7-3.3
+ENV TCL_VERSION 8.6.8-1
+ENV TK_VERSION 8.6.8-1
+ENV RSTUDIO_SERVER_VERSION 1.1.456
+ENV SHINY_SERVER_VERSION 1.5.7.907
+ENV FEDORA_VERSION 28
+ENV MRO_VERSION 3.5.1
 ENV MRO_HOME /opt/microsoft/ropen/$MRO_VERSION/lib64/R
+# ENV MAKEFLAGS "-j$(nproc/2)"
 
 RUN \
   yum clean all && \
@@ -36,7 +37,8 @@ RUN \
                  tar \
                  curl \
                  mock \
-                 NLopt-devel
+                 NLopt-devel \
+                 unixodbc-devel
 
 RUN \
   useradd -ms /bin/bash mockbuild
@@ -110,9 +112,8 @@ RUN \
 USER root
 
 RUN \
-  cd /home/mockbuild/rpmbuild/RPMS/x86_64/ && \
   yum erase -y tcl tk && \
-  yum install -y ./tcl-devel-$TCL_VERSION.el7.centos.x86_64.rpm ./tcl-$TCL_VERSION.el7.centos.x86_64.rpm
+  yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64//tcl-devel-$TCL_VERSION.el7.x86_64.rpm /home/mockbuild/rpmbuild/RPMS/x86_64/tcl-$TCL_VERSION.el7.x86_64.rpm
 
 RUN \
   yum-builddep -y --nogpgcheck /home/mockbuild/tk-$TK_VERSION.fc$FEDORA_VERSION.src.rpm
@@ -132,8 +133,8 @@ RUN \
   yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64/rapache-*.rpm && \
   yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64/opencpu-lib-*.rpm && \
   yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64/opencpu-server-*.rpm && \
-  yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64/./tk-devel-$TK_VERSION.el7.centos.x86_64.rpm \
-                 /home/mockbuild/rpmbuild/RPMS/x86_64/tk-$TK_VERSION.el7.centos.x86_64.rpm
+  yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64/tk-devel-$TK_VERSION.el7.x86_64.rpm \
+                 /home/mockbuild/rpmbuild/RPMS/x86_64/tk-$TK_VERSION.el7.x86_64.rpm
 
 # Cleanup
 RUN \
@@ -153,8 +154,7 @@ WORKDIR /tmp
 
 RUN \
   wget https://download2.rstudio.org/rstudio-server-rhel-$RSTUDIO_SERVER_VERSION-x86_64.rpm && \
-  wget https://download3.rstudio.org/centos5.9/x86_64/shiny-server-$SHINY_SERVER_VERSION-rh5-x86_64.rpm
-
+  wget https://download3.rstudio.org/centos6.3/x86_64/shiny-server-$SHINY_SERVER_VERSION-rh6-x86_64.rpm
 
 #RUN \
 #  echo "Installing shiny from CRAN" && \
@@ -169,8 +169,8 @@ RUN \
   echo "root:r00tpassw0rd" | chpasswd
 
 RUN \
-  yum install -y --nogpgcheck /tmp/shiny-server-$SHINY_SERVER_VERSION-rh5-x86_64.rpm && \
-  rm -f /tmp/shiny-server-$SHINY_SERVER_VERSION-rh5-x86_64.rpm
+  yum install -y --nogpgcheck /tmp/shiny-server-$SHINY_SERVER_VERSION-rh6-x86_64.rpm && \
+  rm -f /tmp/shiny-server-$SHINY_SERVER_VERSION-rh6-x86_64.rpm
 
 RUN \
   yum install -y --nogpgcheck /tmp/rstudio-server-rhel-$RSTUDIO_SERVER_VERSION-x86_64.rpm && \
@@ -226,10 +226,16 @@ RUN \
   ln /srv/shiny-server/rmd /home/shiny/shiny-server/rmd -s
 
 # Workaround for library directory in MRO 3.4.X
-ADD \
-  .Rprofile /home/shiny/.Rprofile
+#ADD \
+#  .Rprofile /home/shiny/.Rprofile
 
 USER root
+
+# Link pandoc binaries from rstudio server
+# https://github.com/rstudio/rmarkdown/blob/master/PANDOC.md
+RUN \
+  ln -s /usr/lib/rstudio-server/bin/pandoc/pandoc /usr/local/bin && \
+  ln -s /usr/lib/rstudio-server/bin/pandoc/pandoc-citeproc /usr/local/bin
 
 # install useful R packages
 ADD \
