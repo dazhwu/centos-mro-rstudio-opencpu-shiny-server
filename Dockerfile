@@ -133,8 +133,7 @@ RUN \
   yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64/rapache-*.rpm && \
   yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64/opencpu-lib-*.rpm && \
   yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64/opencpu-server-*.rpm && \
-  yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64/tk-devel-$TK_VERSION.el7.x86_64.rpm \
-                 /home/mockbuild/rpmbuild/RPMS/x86_64/tk-$TK_VERSION.el7.x86_64.rpm
+  yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64/tk-devel-$TK_VERSION.el7.x86_64.rpm /home/mockbuild/rpmbuild/RPMS/x86_64/tk-$TK_VERSION.el7.x86_64.rpm
 
 # Cleanup
 RUN \
