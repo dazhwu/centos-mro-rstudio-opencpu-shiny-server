@@ -1,16 +1,21 @@
 
 FROM mjmg/centos-mro-base:latest
 
-ENV OPENCPU_VERSION 2.0.8-32.3
-ENV RAPACHE_VERSION 1.2.7-3.3
-ENV TCL_VERSION 8.6.8-1
-ENV TK_VERSION 8.6.8-1
-ENV RSTUDIO_SERVER_VERSION 1.1.456
-ENV SHINY_SERVER_VERSION 1.5.7.907
-ENV FEDORA_VERSION 28
-ENV MRO_VERSION 3.5.1
+ENV MRO_VERSION 3.5.3
 ENV MRO_HOME /opt/microsoft/ropen/$MRO_VERSION/lib64/R
 # ENV MAKEFLAGS "-j$(nproc/2)"
+
+ENV OPENCPU_VERSION 2.1.7-16.1
+ENV RAPACHE_VERSION 1.2.7-2.1
+
+ENV FEDORA_VERSION 32
+ENV TCL_VERSION 8.6.10-1
+ENV TK_VERSION 8.6.10-3
+
+ENV RSTUDIO_SERVER_VERSION 1.3.959
+ENV SHINY_SERVER_VERSION 1.5.13.944
+
+
 
 RUN \
   yum clean all && \
@@ -37,8 +42,9 @@ RUN \
                  tar \
                  curl \
                  mock \
-                 NLopt-devel \
-                 unixodbc-devel
+                 #NLopt-devel \
+                 https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/n/NLopt-devel-2.4.2-2.el7.x86_64.rpm
+                 unixODBC-devel
 
 RUN \
   useradd -ms /bin/bash mockbuild
@@ -64,8 +70,8 @@ USER mockbuild
 
 RUN \
   cd /home/mockbuild/ && \
-  wget http://download.opensuse.org/repositories/home:/jeroenooms:/opencpu-2.0/Fedora_$FEDORA_VERSION/src/rapache-$RAPACHE_VERSION.src.rpm && \ 
-  wget http://download.opensuse.org/repositories/home:/jeroenooms:/opencpu-2.0/Fedora_$FEDORA_VERSION/src/opencpu-$OPENCPU_VERSION.src.rpm && \
+  wget http://download.opensuse.org/repositories/home:/jeroenooms:/opencpu-2.1/Fedora_$FEDORA_VERSION/src/rapache-$RAPACHE_VERSION.src.rpm && \ 
+  wget http://download.opensuse.org/repositories/home:/jeroenooms:/opencpu-2.1/Fedora_$FEDORA_VERSION/src/opencpu-$OPENCPU_VERSION.src.rpm && \
   wget http://dl.fedoraproject.org/pub/fedora/linux/releases/$FEDORA_VERSION/Everything/source/tree/Packages/t/tcl-$TCL_VERSION.fc$FEDORA_VERSION.src.rpm && \
   wget http://dl.fedoraproject.org/pub/fedora/linux/releases/$FEDORA_VERSION/Everything/source/tree/Packages/t/tk-$TK_VERSION.fc$FEDORA_VERSION.src.rpm
 
@@ -152,7 +158,7 @@ USER root
 WORKDIR /tmp
 
 RUN \
-  wget https://download2.rstudio.org/rstudio-server-rhel-$RSTUDIO_SERVER_VERSION-x86_64.rpm && \
+  wget https://download2.rstudio.org/server/centos8/x86_64/rstudio-server-rhel-$RSTUDIO_SERVER_VERSION-x86_64.rpm && \
   wget https://download3.rstudio.org/centos6.3/x86_64/shiny-server-$SHINY_SERVER_VERSION-rh6-x86_64.rpm
 
 #RUN \
