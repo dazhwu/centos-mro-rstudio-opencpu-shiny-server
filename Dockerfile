@@ -52,12 +52,6 @@ RUN \
                  ncurses-compat-libs \
                  unixODBC-devel
 
-#RUN \ 
-#  cd /tmp
-#  wget https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/n/NLopt-2.4.2-2.el7.x86_64.rpm
-#  wget https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/n/NLopt-devel-2.4.2-2.el7.x86_64.rpm
-#  dnf install -y /tmp/NLopt-2.4.2-2.el7.x86_64.rpm /tmp/NLopt-devel-2.4.2-2.el7.x86_64.rpm
-
 
 RUN \
   useradd -ms /bin/bash mockbuild
@@ -132,7 +126,7 @@ USER root
 
 RUN \
   dnf erase -y tcl tk && \
-  dnf install -y /home/mockbuild/rpmbuild/RPMS/x86_64//tcl-devel-$TCL_VERSION.el7.x86_64.rpm /home/mockbuild/rpmbuild/RPMS/x86_64/tcl-$TCL_VERSION.el7.x86_64.rpm
+  dnf install -y /home/mockbuild/rpmbuild/RPMS/x86_64/tcl-devel-$TCL_VERSION.el7.x86_64.rpm /home/mockbuild/rpmbuild/RPMS/x86_64/tcl-$TCL_VERSION.el7.x86_64.rpm
 
 RUN \
   dnf builddep -y --nogpgcheck /home/mockbuild/tk-$TK_VERSION.fc$FEDORA_VERSION.src.rpm
