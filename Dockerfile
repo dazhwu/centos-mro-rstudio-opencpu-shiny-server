@@ -47,9 +47,16 @@ RUN \
                  curl \
                  mock \
                  #NLopt-devel \
-                 https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/n/NLopt-2.4.2-2.el7.x86_64.rpm && \
+                 https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/n/NLopt-2.4.2-2.el7.x86_64.rpm \
                  https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/n/NLopt-devel-2.4.2-2.el7.x86_64.rpm \
                  unixODBC-devel
+
+#RUN \ 
+#  cd /tmp
+#  wget https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/n/NLopt-2.4.2-2.el7.x86_64.rpm
+#  wget https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/n/NLopt-devel-2.4.2-2.el7.x86_64.rpm
+#  dnf install -y /tmp/NLopt-2.4.2-2.el7.x86_64.rpm /tmp/NLopt-devel-2.4.2-2.el7.x86_64.rpm
+
 
 RUN \
   useradd -ms /bin/bash mockbuild
