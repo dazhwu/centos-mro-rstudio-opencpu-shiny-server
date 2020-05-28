@@ -18,9 +18,10 @@ ENV SHINY_SERVER_VERSION 1.5.13.944
 
 
 RUN \
-  yum clean all && \
-  yum update -y && \
-  yum install -y yum-utils \
+  dnf config-manager --set-enabled PowerTools
+  dnf clean all && \
+  dnf update -y && \
+  dnf install -y yum-utils \
                  rpmdevtools \
                  httpd-devel \
                  libapreq2-devel \
@@ -81,13 +82,13 @@ USER root
 #  rm /etc/yum.repos.d/CentOS-Sources.repo
 
 RUN \
-  yum-builddep -y --nogpgcheck /home/mockbuild/opencpu-$OPENCPU_VERSION.src.rpm
+  dnf builddep -y --nogpgcheck /home/mockbuild/opencpu-$OPENCPU_VERSION.src.rpm
 
 RUN \
-  yum-builddep -y --nogpgcheck /home/mockbuild/rapache-$RAPACHE_VERSION.src.rpm
+  dnf builddep -y --nogpgcheck /home/mockbuild/rapache-$RAPACHE_VERSION.src.rpm
 
 RUN \
-  yum-builddep -y --nogpgcheck /home/mockbuild/tcl-$TCL_VERSION.fc$FEDORA_VERSION.src.rpm
+  dnf builddep -y --nogpgcheck /home/mockbuild/tcl-$TCL_VERSION.fc$FEDORA_VERSION.src.rpm
 
 RUN \
   ln $MRO_HOME/share/ /usr/share/R -s && \
@@ -118,11 +119,11 @@ RUN \
 USER root
 
 RUN \
-  yum erase -y tcl tk && \
-  yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64//tcl-devel-$TCL_VERSION.el7.x86_64.rpm /home/mockbuild/rpmbuild/RPMS/x86_64/tcl-$TCL_VERSION.el7.x86_64.rpm
+  dnf erase -y tcl tk && \
+  dnf install -y /home/mockbuild/rpmbuild/RPMS/x86_64//tcl-devel-$TCL_VERSION.el7.x86_64.rpm /home/mockbuild/rpmbuild/RPMS/x86_64/tcl-$TCL_VERSION.el7.x86_64.rpm
 
 RUN \
-  yum-builddep -y --nogpgcheck /home/mockbuild/tk-$TK_VERSION.fc$FEDORA_VERSION.src.rpm
+  dnf builddep -y --nogpgcheck /home/mockbuild/tk-$TK_VERSION.fc$FEDORA_VERSION.src.rpm
 
 
 USER mockbuild
@@ -135,18 +136,18 @@ RUN \
 USER root
 
 RUN \
-  yum install -y MTA mod_ssl /usr/sbin/semanage && \
-  yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64/rapache-*.rpm && \
-  yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64/opencpu-lib-*.rpm && \
-  yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64/opencpu-server-*.rpm && \
-  yum install -y /home/mockbuild/rpmbuild/RPMS/x86_64/tk-devel-$TK_VERSION.el7.x86_64.rpm /home/mockbuild/rpmbuild/RPMS/x86_64/tk-$TK_VERSION.el7.x86_64.rpm
+  dnf install -y MTA mod_ssl /usr/sbin/semanage && \
+  dnf install -y /home/mockbuild/rpmbuild/RPMS/x86_64/rapache-*.rpm && \
+  dnf install -y /home/mockbuild/rpmbuild/RPMS/x86_64/opencpu-lib-*.rpm && \
+  dnf install -y /home/mockbuild/rpmbuild/RPMS/x86_64/opencpu-server-*.rpm && \
+  dnf install -y /home/mockbuild/rpmbuild/RPMS/x86_64/tk-devel-$TK_VERSION.el7.x86_64.rpm /home/mockbuild/rpmbuild/RPMS/x86_64/tk-$TK_VERSION.el7.x86_64.rpm
 
 # Cleanup
 RUN \
   rm -rf /home/mockbuild/* && \
   userdel mockbuild && \
-  yum erase mock -y && \
-  yum autoremove -y
+  dnf erase mock -y && \
+  dnf autoremove -y
 
 # Configure default shiny user with password shiny
 RUN \
@@ -174,11 +175,11 @@ RUN \
   echo "root:r00tpassw0rd" | chpasswd
 
 RUN \
-  yum install -y --nogpgcheck /tmp/shiny-server-$SHINY_SERVER_VERSION-rh6-x86_64.rpm && \
+  dnf install -y --nogpgcheck /tmp/shiny-server-$SHINY_SERVER_VERSION-rh6-x86_64.rpm && \
   rm -f /tmp/shiny-server-$SHINY_SERVER_VERSION-rh6-x86_64.rpm
 
 RUN \
-  yum install -y --nogpgcheck /tmp/rstudio-server-rhel-$RSTUDIO_SERVER_VERSION-x86_64.rpm && \
+  dnf install -y --nogpgcheck /tmp/rstudio-server-rhel-$RSTUDIO_SERVER_VERSION-x86_64.rpm && \
   rm -f /tmp/rstudio-server-rhel-$RSTUDIO_SERVER_VERSION-x86_64.rpm
 
 
