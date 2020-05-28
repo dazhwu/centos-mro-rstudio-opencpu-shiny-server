@@ -146,7 +146,7 @@ RUN \
   dnf install -y /home/mockbuild/rpmbuild/RPMS/x86_64/rapache-*.rpm && \
   dnf install -y /home/mockbuild/rpmbuild/RPMS/x86_64/opencpu-lib-*.rpm && \
   dnf install -y /home/mockbuild/rpmbuild/RPMS/x86_64/opencpu-server-*.rpm && \
-  dnf install -y /home/mockbuild/rpmbuild/RPMS/x86_64/tk-devel-$TK_VERSION.el7.x86_64.rpm /home/mockbuild/rpmbuild/RPMS/x86_64/tk-$TK_VERSION.el7.x86_64.rpm
+  dnf install -y /home/mockbuild/rpmbuild/RPMS/x86_64/tk-devel-$TK_VERSION.el8.x86_64.rpm /home/mockbuild/rpmbuild/RPMS/x86_64/tk-$TK_VERSION.el8.x86_64.rpm
 
 # Cleanup
 RUN \
