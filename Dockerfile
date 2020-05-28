@@ -18,7 +18,7 @@ ENV SHINY_SERVER_VERSION 1.5.13.944
 
 
 RUN \
-  dnf config-manager --set-enabled PowerTools
+  dnf config-manager --set-enabled PowerTools && \
   dnf clean all && \
   dnf update -y && \
   dnf install -y yum-utils \
