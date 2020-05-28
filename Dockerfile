@@ -18,7 +18,7 @@ ENV SHINY_SERVER_VERSION 1.5.13.944
 
 
 RUN \
-  dnf install -y install dnf-plugins-core && \
+  dnf install -y dnf-plugins-core && \
   dnf config-manager --set-enabled PowerTools && \
   dnf clean all && \
   dnf update -y
