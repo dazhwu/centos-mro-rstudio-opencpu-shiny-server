@@ -184,8 +184,8 @@ RUN \
   echo "root:r00tpassw0rd" | chpasswd
 
 RUN \
-  dnf install -y --nogpgcheck /tmp/shiny-server-$SHINY_SERVER_VERSION-rh6-x86_64.rpm && \
-  rm -f /tmp/shiny-server-$SHINY_SERVER_VERSION-rh6-x86_64.rpm
+  dnf install -y --nogpgcheck /tmp/shiny-server-$SHINY_SERVER_VERSION-x86_64.rpm && \
+  rm -f /tmp/shiny-server-$SHINY_SERVER_VERSION-x86_64.rpm
 
 RUN \
   dnf install -y --nogpgcheck /tmp/rstudio-server-rhel-$RSTUDIO_SERVER_VERSION-x86_64.rpm && \
