@@ -49,6 +49,7 @@ RUN \
                  #NLopt-devel \
                  https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/n/NLopt-2.4.2-2.el7.x86_64.rpm \
                  https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/n/NLopt-devel-2.4.2-2.el7.x86_64.rpm \
+                 ncurses-compat-libs \
                  unixODBC-devel
 
 #RUN \ 
