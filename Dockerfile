@@ -50,7 +50,9 @@ RUN \
                  https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/n/NLopt-2.4.2-2.el7.x86_64.rpm \
                  https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/n/NLopt-devel-2.4.2-2.el7.x86_64.rpm \
                  ncurses-compat-libs \
-                 unixODBC-devel
+                 unixODBC-devel \
+                 tcl-devel \
+                 tk-devel
 
 
 RUN \
@@ -117,27 +119,27 @@ RUN \
   rpm -ivh opencpu-$OPENCPU_VERSION.src.rpm && \
   rpmbuild -ba ~/rpmbuild/SPECS/opencpu.spec
 
-RUN \
-  cd ~ && \
-  rpm -ivh tcl-$TCL_VERSION.fc$FEDORA_VERSION.src.rpm && \
-  rpmbuild -ba ~/rpmbuild/SPECS/tcl.spec
+#RUN \
+#  cd ~ && \
+#  rpm -ivh tcl-$TCL_VERSION.fc$FEDORA_VERSION.src.rpm && \
+#  rpmbuild -ba ~/rpmbuild/SPECS/tcl.spec
 
-USER root
+#USER root
 
-RUN \
-  dnf erase -y tcl tk && \
-  dnf install -y /home/mockbuild/rpmbuild/RPMS/x86_64/tcl-devel-$TCL_VERSION.el7.x86_64.rpm /home/mockbuild/rpmbuild/RPMS/x86_64/tcl-$TCL_VERSION.el7.x86_64.rpm
+#RUN \
+#  dnf erase -y tcl tk && \
+#  dnf install -y /home/mockbuild/rpmbuild/RPMS/x86_64/tcl-devel-$TCL_VERSION.el7.x86_64.rpm /home/mockbuild/rpmbuild/RPMS/x86_64/tcl-$TCL_VERSION.el7.x86_64.rpm
 
-RUN \
-  dnf builddep -y --nogpgcheck /home/mockbuild/tk-$TK_VERSION.fc$FEDORA_VERSION.src.rpm
+#RUN \
+#  dnf builddep -y --nogpgcheck /home/mockbuild/tk-$TK_VERSION.fc$FEDORA_VERSION.src.rpm
 
 
-USER mockbuild
+#USER mockbuild
 
-RUN \
-  cd ~ && \
-  rpm -ivh tk-$TK_VERSION.fc$FEDORA_VERSION.src.rpm && \
-  rpmbuild -ba ~/rpmbuild/SPECS/tk.spec
+#RUN \
+#  cd ~ && \
+#  rpm -ivh tk-$TK_VERSION.fc$FEDORA_VERSION.src.rpm && \
+#  rpmbuild -ba ~/rpmbuild/SPECS/tk.spec
 
 USER root
 
@@ -145,8 +147,9 @@ RUN \
   dnf install -y MTA mod_ssl /usr/sbin/semanage && \
   dnf install -y /home/mockbuild/rpmbuild/RPMS/x86_64/rapache-*.rpm && \
   dnf install -y /home/mockbuild/rpmbuild/RPMS/x86_64/opencpu-lib-*.rpm && \
-  dnf install -y /home/mockbuild/rpmbuild/RPMS/x86_64/opencpu-server-*.rpm && \
-  dnf install -y /home/mockbuild/rpmbuild/RPMS/x86_64/tk-devel-$TK_VERSION.el8.x86_64.rpm /home/mockbuild/rpmbuild/RPMS/x86_64/tk-$TK_VERSION.el8.x86_64.rpm
+  dnf install -y /home/mockbuild/rpmbuild/RPMS/x86_64/opencpu-server-*.rpm 
+  # && \
+#  dnf install -y /home/mockbuild/rpmbuild/RPMS/x86_64/tk-devel-$TK_VERSION.el8.x86_64.rpm /home/mockbuild/rpmbuild/RPMS/x86_64/tk-$TK_VERSION.el8.x86_64.rpm
 
 # Cleanup
 RUN \
