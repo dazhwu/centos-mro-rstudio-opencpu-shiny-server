@@ -169,7 +169,7 @@ WORKDIR /tmp
 
 RUN \
   wget https://download2.rstudio.org/server/centos8/x86_64/rstudio-server-rhel-$RSTUDIO_SERVER_VERSION-x86_64.rpm && \
-  wget https://download3.rstudio.org/centos6.3/x86_64/shiny-server-$SHINY_SERVER_VERSION-rh6-x86_64.rpm
+  wget https://download3.rstudio.org/centos6.3/x86_64/shiny-server-$SHINY_SERVER_VERSION-x86_64.rpm
 
 #RUN \
 #  echo "Installing shiny from CRAN" && \
